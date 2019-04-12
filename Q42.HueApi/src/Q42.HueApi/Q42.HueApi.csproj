@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <Version>3.9.0</Version>
+    <Company>Q42</Company>
+    <Authors>Michiel Post, Q42</Authors>
+    <Description>Open source library for interaction with the Philips Hue Bridge. Allows you to control your lights from C#. Supports .Net Standard 1.1</Description>
+    <PackageProjectUrl>https://github.com/Q42/Q42.HueApi</PackageProjectUrl>
+    <PackageIconUrl>https://nugetgallery.blob.core.windows.net/icons/DotLessMinification.0.42.1.png</PackageIconUrl>
+    <RepositoryUrl>https://github.com/Q42/Q42.HueApi</RepositoryUrl>
+    <RepositoryType>GitHub</RepositoryType>
+    <PackageTags>philips hue lights</PackageTags>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <IncludeSymbols>True</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
+  </ItemGroup>
+
+</Project>

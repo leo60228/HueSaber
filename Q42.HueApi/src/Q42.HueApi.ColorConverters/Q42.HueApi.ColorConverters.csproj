@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+ <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <Version>3.9.0</Version>
+    <Company>Q42</Company>
+    <Authors>Michiel Post, Q42</Authors>
+    <Description>This package only contains the ColorConverers used with Q42.HueApi</Description>
+    <PackageProjectUrl>https://github.com/Q42/Q42.HueApi</PackageProjectUrl>
+    <PackageIconUrl>https://nugetgallery.blob.core.windows.net/icons/DotLessMinification.0.42.1.png</PackageIconUrl>
+    <RepositoryUrl>https://github.com/Q42/Q42.HueApi</RepositoryUrl>
+    <RepositoryType>GitHub</RepositoryType>
+    <PackageTags>philips hue lights</PackageTags>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <IncludeSymbols>True</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Q42.HueApi\Q42.HueApi.csproj">
+      <PrivateAssets>All</PrivateAssets>
+    </ProjectReference>
+  </ItemGroup>
+
+</Project>
