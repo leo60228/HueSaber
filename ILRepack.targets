@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<Target Name="ILRepacker" AfterTargets="Build">
+		<ItemGroup>
+			<InputAssemblies Include="$(TargetPath)"/>
+			<InputAssemblies Include="@(ReferencePathWithRefAssemblies)" Condition="'%(filename)' == 'Newtonsoft.Json'" />
+      <InputAssemblies Include="@(ReferencePathWithRefAssemblies)" Condition="'%(filename)' == 'Q42.HueApi'" />
+      <InputAssemblies Include="@(ReferencePathWithRefAssemblies)" Condition="'%(filename)' == 'Q42.HueApi.ColorConverters'" />
+      <InputAssemblies Include="@(ReferencePathWithRefAssemblies)" Condition="'%(filename)' == 'Q42.HueApi.Streaming'" />
+      <InputAssemblies Include="@(ReferencePathWithRefAssemblies)" Condition="'%(filename)' == 'BouncyCastle.Crypto'" />
+      <InputAssemblies Include="@(ReferencePathWithRefAssemblies)" Condition="'%(filename)' == 'netstandard'" />
+    </ItemGroup>
+
+		<ILRepack
+			AllowDuplicateResources="true"
+			DebugInfo="true"
+			Internalize="true"
+      Wildcards="true"
+      LibraryPath="$(MSBuildProjectDirectory)\packages\NETStandard.Library.2.0.3\build\netstandard2.0\ref\"
+			InputAssemblies="@(InputAssemblies)"
+			OutputFile="C:\Program Files\Oculus\Software\Software\hyperbolic-magnetism-beat-saber\Plugins\HueSaber.dll"
+			Parallel="true"
+      Verbose="true"
+			TargetKind="SameAsPrimaryAssembly" />
+	</Target>
+</Project>

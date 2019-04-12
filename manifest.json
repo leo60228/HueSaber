@@ -1,0 +1,9 @@
+﻿{
+  "$schema": "https://github.com/nike4613/BSIPA-MetadataFileSchema/master/Schema.json",
+  "author": "leo60228",
+  "description": "A mod to sync Beat Saber with RGB Phillips Hue bulbs.",
+  "gameVersion": "0.13.2",
+  "id": "huesaber",
+  "name": "HueSaber",
+  "version": "0.0.1"
+}
