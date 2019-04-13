@@ -15,7 +15,7 @@ namespace HueSaber
     public class Plugin : IBeatSaberPlugin
     {
         public string Name => "HueSaber";
-        public string Version => "0.0.1";
+        public string Version => "1.1.0";
 
         protected static Logger Log = null;
         protected static IModPrefs Prefs = null;

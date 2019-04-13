@@ -35,15 +35,27 @@ namespace HueSaber
 
         public bool Ready => prefs.HasKey("HueSaber", "appKey") && prefs.HasKey("HueSaber", "clientKey");
 
+        private async Task<string> FindBridge()
+        {
+            log.Info("Searching for bridge...");
+            var overrideIP = prefs.GetString("HueSaber", "overrideIP");
+            if (overrideIP != "")
+            {
+                log.Info("Using IP address override.");
+                return overrideIP;
+            } else
+            {
+                return (await new HttpBridgeLocator().LocateBridgesAsync(TimeSpan.FromSeconds(5))).FirstOrDefault()?.IpAddress;
+            }
+        }
+
         public async Task Sync(CancellationToken token)
         {
-            LocatedBridge bridge;
+            string bridge;
             try
             {
                 token.ThrowIfCancellationRequested();
-                log.Info("Searching for bridge...");
-                var locator = new HttpBridgeLocator();
-                bridge = (await locator.LocateBridgesAsync(TimeSpan.FromSeconds(5))).FirstOrDefault();
+                bridge = await FindBridge();
                 if (bridge == null)
                 {
                     log.Error("No bridge found!");
@@ -51,7 +63,7 @@ namespace HueSaber
                 }
                 token.ThrowIfCancellationRequested();
                 log.Info("Found bridge, pairing...");
-                var keys = await LocalHueClient.RegisterAsync(bridge.IpAddress, "HueSaber", "BeatSaber", true);
+                var keys = await LocalHueClient.RegisterAsync(bridge, "HueSaber", "BeatSaber", true);
                 log.Info("Successfully paired!");
                 token.ThrowIfCancellationRequested();
                 prefs.SetString("HueSaber", "appKey", keys.Username);
@@ -62,7 +74,7 @@ namespace HueSaber
                 log.Error(ex);
                 throw;
             }
-            await Run(token, bridge.IpAddress);
+            await Run(token, bridge);
         }
 
         public async Task Run(CancellationToken token, string ip = null)
@@ -71,15 +83,7 @@ namespace HueSaber
             {
                 if (ip == null)
                 {
-                    log.Info("Searching for bridge...");
-                    var locator = new HttpBridgeLocator();
-                    var bridge = (await locator.LocateBridgesAsync(TimeSpan.FromSeconds(5))).FirstOrDefault();
-                    if (bridge == null)
-                    {
-                        log.Error("No bridge found!");
-                        return;
-                    }
-                    ip = bridge.IpAddress;
+                    ip = await FindBridge();
                 }
                 token.ThrowIfCancellationRequested();
                 var appKey = prefs.GetString("HueSaber", "appKey");
@@ -88,10 +92,10 @@ namespace HueSaber
                 var client = new StreamingHueClient(ip, appKey, clientKey);
                 token.ThrowIfCancellationRequested();
                 log.Info("Connected! Getting entertainment group...");
-                var group = (await client.LocalHueClient.GetEntertainmentGroups()).FirstOrDefault();
+                var group = (await client.LocalHueClient.GetEntertainmentGroups()).ElementAtOrDefault(prefs.GetInt("HueSaber", "overrideRoom", 0));
                 if (group == null)
                 {
-                    log.Error("No group found!");
+                    log.Error("Group is missing!");
                     return;
                 }
                 token.ThrowIfCancellationRequested();
